@@ -1,6 +1,8 @@
 package dkit.oop;
 
-public class Student {
+import  java.lang.Cloneable;
+
+public class Student implements Cloneable{
     private int caoNumber;  // In the CAO system, cao number is unique identifier for student
     private String dateOfBirth; // yyyy-mm-dd
     private String password;    // min 8 characters
@@ -9,7 +11,13 @@ public class Student {
     // Copy Constructor
     // Copies the contents of a Student object argument into
     // a new Student object, and returns that new object (a clone)
-    // (add here)
+    public Student(Student student)
+        {
+            this.caoNumber = student.caoNumber;
+            this.dateOfBirth = student.dateOfBirth;
+            this.password = student.password;
+            this.email = student.email;
+        }
 
 
     // Constructor
@@ -19,6 +27,8 @@ public class Student {
         this.password = password;
         this.email = email;
     }
+    
+    
 
     //public boolean verifyLoginCredentials( yyy-mm-dd, password);
 

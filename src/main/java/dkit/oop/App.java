@@ -10,13 +10,14 @@ import java.util.List;
  */
 public class App 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws CloneNotSupportedException
     {
         System.out.println( "CAO Online - CA4" );
         new App() .start();
     }
 
-    private void start() {
+    private void start() throws CloneNotSupportedException
+    {
 
         // load students
         StudentManager studentManager = new StudentManager();
@@ -31,6 +32,9 @@ public class App
         // so we 'inject' or pass-in these objects.
         //
         CourseChoicesManager mgr = new CourseChoicesManager(studentManager, courseManager);
+    
+        studentManager.addStudent(new Student(2000, "2000-01-01", "Name", "Surname"));
+        System.out.println(studentManager.getStudent(2000));
 
         // display a menu to do things
         // manual testing of mgr public interface
@@ -46,6 +50,5 @@ public class App
 
 
         //mgr.saveToFile();
-
     }
 }

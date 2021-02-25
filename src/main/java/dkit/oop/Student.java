@@ -63,7 +63,12 @@ public class Student implements Cloneable{
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+    
     @Override
     public String toString() {
         return "Student{" +

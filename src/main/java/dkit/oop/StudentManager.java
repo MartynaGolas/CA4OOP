@@ -21,17 +21,51 @@ public class StudentManager
         // later, load from text file "students.dat" and populate studentsMap
     }
 
-//  public getStudent() {
-//  }
+    public Student getStudent(int ceoNumber) throws CloneNotSupportedException
+    {
+        Iterator<Map.Entry<Integer, Student>> it = students.entrySet().iterator();
+        Student clone = null;
+        
+        while(it.hasNext())
+        {
+            Map.Entry<Integer, Student> set = (Map.Entry<Integer, Student>) it.next();
+            if(set.getKey().equals(ceoNumber))
+            {
+                clone = new Student((Student)set.getValue().clone());
+                return (Student)set.getValue().clone();
+            }
+        }
+        return clone;
+    }
 //
 //
 //
-//    public addStudent() {
-//    }
-//
-//    public removeStudent() {
-//    }
+    public void addStudent(Student student) throws CloneNotSupportedException
+    {
+        Student clone = (Student)student.clone();
+        students.put(clone.getCaoNumber(), clone);
+    }
 
-//    isRegistered( caoNumber)
-//        students.isValid()
+    public void removeStudent(int ceoNumber) {
+        Iterator<Map.Entry<Integer, Student>> it = students.entrySet().iterator();
+        while(it.hasNext())
+        {
+            Map.Entry<Integer, Student> set = (Map.Entry<Integer, Student>) it.next();
+            if(set.getKey().equals(ceoNumber))
+            {
+                students.remove(set.getKey());
+            }
+        }
+        
+    }
+
+   public Boolean isRegistered(int caoNumber)
+   {
+       if(students.containsKey(caoNumber))
+       {
+           return true;
+       }
+       return false;
+   }
+       
 }

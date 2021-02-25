@@ -63,6 +63,7 @@ public class Course implements Cloneable{
         return "Course{" +
                 "courseId='" + courseId + '\'' +
                 ", level='" + level + '\'' +
+                ", title='" + title + '\'' +
                 ", institution='" + institution + '\'' +
                 '}';
     }

@@ -31,22 +31,14 @@ public class App
 
         // display a menu to do things
         // manual testing of mgr public interface
-        System.out.println("Choose your option: ");
-        System.out.println("1. Add course choices");
-        System.out.println("1. Log in: ");
-        System.out.println("2. Display a course: ");
-        System.out.println("3. Display all courses: ");
-        System.out.println("4. Display all current choices: ");
-        System.out.println("Update choices: ");
-        System.out.println("Log out");
+        
+        mainMenu();
         option = kb.nextInt();
         while(option != 0)
         {
             if(option == 1)
             {
-                mgr.updateChoices(101, choice1());
-                System.out.println(mgr.getStudentChoices(101));
-                
+                mainOption1();
             }
             if(option == 2)
             {
@@ -70,6 +62,69 @@ public class App
 
         //mgr.saveToFile();
     }
+    
+    public void mainMenu()
+    {
+        System.out.println("***** WELCOME *****");
+        System.out.println("0. Exit the app.");
+        System.out.println("1. Log in");
+        System.out.println("2. Register");
+    }
+    
+    public void mainOption1() throws CloneNotSupportedException
+    {
+        System.out.println("Enter your CAO number");
+        int cao = kb.nextInt();
+        System.out.println("Enter your password");
+        String pass = kb.next();
+        boolean login = mgr.login(cao, pass);
+        if(!login)
+        {
+            System.out.println("Login failed, please try again.");
+            mainOption1();
+        }
+        else
+        {
+            System.out.println("Welcome!");
+            studentMenu();
+            int option = kb.nextInt();
+            while(option != 0)
+            {
+                if(option == 1)
+                {
+                    studentOption1();
+                }
+            }
+        }
+    }
+    
+    public void studentMenu()
+    {
+        System.out.println("Choose your option: ");
+        System.out.println("1. Display a course: ");
+        System.out.println("2. Display all courses: ");
+        System.out.println("3. Display all current choices: ");
+        System.out.println("4. Update choices: ");
+        System.out.println("5. Log out");
+    }
+    
+    public void studentOption1() throws CloneNotSupportedException
+    {
+        System.out.println("Please enter the ID of course you're interested in: ");
+        String courseID = kb.next();
+        if(courseManager.courses.containsKey(courseID))
+        {
+            System.out.println(mgr.getCourseDetails(courseID));
+        }
+        else
+        {
+            System.out.println("Invalid course ID, please try again.");
+            studentOption1();
+        }
+        studentMenu();
+        option = kb.nextInt();
+    }
+    
     
     public ArrayList<Course> choice1() throws CloneNotSupportedException
     {

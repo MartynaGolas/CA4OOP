@@ -61,11 +61,15 @@ public class StudentManager
 
    public Boolean isRegistered(int caoNumber)
    {
-       if(students.containsKey(caoNumber))
+       Iterator<Map.Entry<Integer, Student>> it = students.entrySet().iterator();
+       while(it.hasNext())
        {
-           return true;
+           Map.Entry<Integer, Student> set = (Map.Entry<Integer, Student>) it.next();
+           if (set.getKey().equals(caoNumber))
+           {
+               return true;
+           }
        }
        return false;
    }
-       
 }

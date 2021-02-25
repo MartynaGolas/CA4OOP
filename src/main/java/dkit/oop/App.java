@@ -1,6 +1,6 @@
 package dkit.oop;
 
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -10,6 +10,12 @@ import java.util.List;
  */
 public class App 
 {
+    Scanner kb = new Scanner(System.in);
+    int option;
+    StudentManager studentManager = new StudentManager();
+    CourseManager courseManager= new CourseManager();
+    CourseChoicesManager mgr = new CourseChoicesManager(studentManager, courseManager);
+    
     public static void main( String[] args ) throws CloneNotSupportedException
     {
         System.out.println( "CAO Online - CA4" );
@@ -20,24 +26,38 @@ public class App
     {
 
         // load students
-        StudentManager studentManager = new StudentManager();
+        
 
         // load courses
-        CourseManager courseManager= new CourseManager();
 
         // load manager to provide functionality to allow a student
         // to login and add/update their course selections
         // This CourseChoicesManager component depends on the
         // StudentManager and the CourseManager,
         // so we 'inject' or pass-in these objects.
-        //
-        CourseChoicesManager mgr = new CourseChoicesManager(studentManager, courseManager);
+        
     
         studentManager.addStudent(new Student(2000, "2000-01-01", "Name", "Surname"));
         System.out.println(studentManager.getStudent(2000));
+        System.out.println(courseManager.getCourse("DK105"));
 
         // display a menu to do things
         // manual testing of mgr public interface
+    
+        option = kb.nextInt();
+        while(option != 0)
+        {
+            System.out.println("Choose your option: ");
+            System.out.println("1. Add course choices");
+            if(option == 1)
+            {
+                mgr.updateChoices(2000, choice1());
+                System.out.println(mgr.getStudentChoices(2000));
+                option = kb.nextInt();
+            }
+            
+        }
+        
 
 //        if ( mgr.login(22224444, "xxxx","bbbb") )
 //        {
@@ -50,5 +70,14 @@ public class App
 
 
         //mgr.saveToFile();
+    }
+    
+    public ArrayList<Course> choice1() throws CloneNotSupportedException
+    {
+        ArrayList<Course> choices = new ArrayList<>();
+        System.out.println("Insert your course choices");
+        String choice = kb.next();
+        choices.add(courseManager.getCourse(choice));
+        return choices;
     }
 }

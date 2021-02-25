@@ -21,8 +21,10 @@ public class CourseChoicesManager {
     private CourseManager courseManager;
 
     // Store all the Course details -  fast access
+    Map<String, Course> courses = Map.copyOf(courseManager.courses);
 
     // caoNumber, course selection list - for fast access
+    Map<Integer, ArrayList<Course>> choices = new HashMap<>();
 
 
     // CourseChoicesManager DEPENDS on both the StudentManager and CourseManager to access
@@ -37,23 +39,69 @@ public class CourseChoicesManager {
 
     }
 
-//    public Student getStudentDetails() {
-//    }
+    public Student getStudentDetails(int caoNumber) throws CloneNotSupportedException
+    {
+        return studentManager.getStudent(caoNumber);
+    }
 //
-//    public getCourseDetails() {
-//    }
+    public Course getCourseDetails(String courseID) throws CloneNotSupportedException
+    {
+        return courseManager.getCourse(courseID);
+    }
+
+    public ArrayList getStudentChoices(int caoNumber)
+    {
+        Iterator<Map.Entry<Integer, ArrayList<Course>>> it = choices.entrySet().iterator();
+        ArrayList<Course> choices = null;
+        while(it.hasNext())
+        {
+            Map.Entry<Integer, ArrayList<Course>> set = (Map.Entry<Integer, ArrayList<Course>>) it.next();
+            if(set.getKey().equals(caoNumber))
+            {
+                choices = set.getValue();
+                return choices;
+            }
+        }
+        return choices;
+    }
 //
-//    public  getStudentChoices() {
-//    }
+    public void updateChoices(int caoNumber, ArrayList<Course> courseChoice) //ARRAYLIST
+    {
+        if(choices.containsKey(caoNumber))
+        {
+            choices.replace(caoNumber, courseChoice);
+        }
+        else
+        {
+            choices.put(caoNumber, courseChoice);
+        }
+    }
 //
-//    void updateChoices() {
-//    }
+    public ArrayList getAllCourses()
+    {
+        ArrayList<Course> coursesList = new ArrayList<Course>();
+        Iterator<Map.Entry<String, Course>> it = courses.entrySet().iterator();
+        Course clone = null;
+    
+        while(it.hasNext())
+        {
+            Map.Entry<String, Course> set = (Map.Entry<String, Course>) it.next();
+            coursesList.add(set.getValue());
+        }
+        return coursesList;
+    }
 //
-//    public  getAllCourses() {
-//    }
-//
-//    boolean login() {
-//    }
+    public boolean login(int caoNumber, String password) throws CloneNotSupportedException
+    {
+        if(studentManager.getStudent(caoNumber).getPassword().equals(password))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 
 }

@@ -21,8 +21,10 @@ public class CourseManager {
     public CourseManager() {
         // Hardcode some values to get started
         Course c1 = new Course("DK105", "8", "BSc Computing in Soft Development", "DkIT");
+        Course c2 = new Course("DK106", "8", "BSc Computing in Soft Development", "DkIT");
         // load from text file "courses.dat" and populate coursesMap
         courses.put(c1.getCourseId(), c1);
+        courses.put(c2.getCourseId(), c2);
     }
 
      public Course getCourse(String courseID) throws CloneNotSupportedException
@@ -36,21 +38,35 @@ public class CourseManager {
             if(set.getKey().equals(courseID))
             {
                 clone = new Course((Course)set.getValue().clone());
-                return (Course)set.getValue().clone();
+                return clone;
             }
         }
         return clone;
-//   }
+     }
 //
 //
 //    public  getAllCourses() {
 //    }
 //
-//    public addCourse() {
-//    }
+    public void addCourse(Course course) throws CloneNotSupportedException
+    {
+        Course clone = (Course)course.clone();
+        courses.put(clone.getCourseId(), clone);
+    }
 //
-//    public removeCourse() {
-//    }
+    public void removeCourse(String courseID)
+    {
+        Iterator<Map.Entry<String, Course>> it = courses.entrySet().iterator();
+        
+        while(it.hasNext())
+        {
+            Map.Entry<String, Course> set = (Map.Entry<String, Course>) it.next();
+            if(set.getKey().equals(courseID))
+            {
+                courses.remove(courseID);
+            }
+        }
+    }
 
     // editCourse(courseId);       // not required for this iteration
 

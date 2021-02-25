@@ -3,6 +3,8 @@ package dkit.oop;
 // to manipulate student objects
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class StudentManager
@@ -19,6 +21,31 @@ public class StudentManager
     Student student1 = new Student(101, "1996-09-17", "default", "default");
     students.put(student1.getCaoNumber(), student1);
         // later, load from text file "students.dat" and populate studentsMap
+        try(Scanner scan = new Scanner(new File("src/Students.txt")))
+        {
+            scan.useDelimiter("[,|\r\n]");
+            while(scan.hasNextLine())
+            {
+                int cao = scan.nextInt();
+                String dob = scan.next();
+                String pass = scan.next();
+                String email = scan.next();
+                
+                Student stu = new Student(cao, dob, pass, email);
+                students.put(stu.getCaoNumber(), stu);
+                if(scan.hasNext())
+                {
+                    scan.nextLine();
+                }
+            }
+        } catch (FileNotFoundException e)
+        {
+            System.out.println("No such file");
+        } catch (InputMismatchException exception)
+        {
+            System.out.println("InputMismatchexception caught." + exception);
+        }
+    
     }
 
     public Student getStudent(int ceoNumber) throws CloneNotSupportedException

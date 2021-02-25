@@ -21,7 +21,7 @@ public class CourseChoicesManager {
     private CourseManager courseManager;
 
     // Store all the Course details -  fast access
-    Map<String, Course> courses = Map.copyOf(courseManager.courses);
+    //Map<String, Course> courses = Map.copyOf(courseManager.courses);
 
     // caoNumber, course selection list - for fast access
     Map<Integer, ArrayList<Course>> choices = new HashMap<>();
@@ -77,7 +77,7 @@ public class CourseChoicesManager {
         }
     }
 //
-    public ArrayList getAllCourses()
+    /*public ArrayList getAllCourses()
     {
         ArrayList<Course> coursesList = new ArrayList<Course>();
         Iterator<Map.Entry<String, Course>> it = courses.entrySet().iterator();
@@ -89,7 +89,7 @@ public class CourseChoicesManager {
             coursesList.add(set.getValue());
         }
         return coursesList;
-    }
+    }*/
 //
     public boolean login(int caoNumber, String password) throws CloneNotSupportedException
     {

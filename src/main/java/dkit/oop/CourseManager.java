@@ -1,5 +1,7 @@
 package dkit.oop;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -25,6 +27,30 @@ public class CourseManager {
         // load from text file "courses.dat" and populate coursesMap
         courses.put(c1.getCourseId(), c1);
         courses.put(c2.getCourseId(), c2);
+        try(Scanner scan = new Scanner(new File("src/Courses.txt")))
+        {
+            scan.useDelimiter("[,|\r\n]");
+            while(scan.hasNextLine())
+            {
+                String courseID = scan.next();
+                String level = scan.next();
+                String title = scan.next();
+                String institution = scan.next();
+            
+                Course stu = new Course(courseID, level, title, institution);
+                courses.put(stu.getCourseId(), stu);
+                if(scan.hasNext())
+                {
+                    scan.nextLine();
+                }
+            }
+        } catch (FileNotFoundException e)
+        {
+            System.out.println("No such file");
+        } catch (InputMismatchException exception)
+        {
+            System.out.println("InputMismatchexception caught." + exception);
+        }
     }
 
      public Course getCourse(String courseID) throws CloneNotSupportedException

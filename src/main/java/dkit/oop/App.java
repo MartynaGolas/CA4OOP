@@ -24,38 +24,37 @@ public class App
 
     private void start() throws CloneNotSupportedException
     {
-
-        // load students
         
-
-        // load courses
-
-        // load manager to provide functionality to allow a student
-        // to login and add/update their course selections
-        // This CourseChoicesManager component depends on the
-        // StudentManager and the CourseManager,
-        // so we 'inject' or pass-in these objects.
-        
-    
         studentManager.addStudent(new Student(2000, "2000-01-01", "Name", "Surname"));
         System.out.println(studentManager.getStudent(2000));
         System.out.println(courseManager.getCourse("DK105"));
 
         // display a menu to do things
         // manual testing of mgr public interface
-    
+        System.out.println("Choose your option: ");
+        System.out.println("1. Add course choices");
+        System.out.println("1. Log in: ");
+        System.out.println("2. Display a course: ");
+        System.out.println("3. Display all courses: ");
+        System.out.println("4. Display all current choices: ");
+        System.out.println("Update choices: ");
+        System.out.println("Log out");
         option = kb.nextInt();
         while(option != 0)
         {
-            System.out.println("Choose your option: ");
-            System.out.println("1. Add course choices");
             if(option == 1)
             {
-                mgr.updateChoices(2000, choice1());
-                System.out.println(mgr.getStudentChoices(2000));
-                option = kb.nextInt();
+                mgr.updateChoices(101, choice1());
+                System.out.println(mgr.getStudentChoices(101));
+                
             }
-            
+            if(option == 2)
+            {
+                System.out.println("Enter cao number of student you want to check.");
+                int num = kb.nextInt();
+                System.out.println(mgr.getStudentDetails(num));
+            }
+            option = kb.nextInt();
         }
         
 

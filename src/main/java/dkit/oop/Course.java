@@ -1,6 +1,7 @@
 package dkit.oop;
 
-public class Course {
+import  java.lang.Cloneable;
+public class Course implements Cloneable{
 
     private String courseId;   // e.g. DK821
     private String level;      // e.g. 7, 8, 9, 10

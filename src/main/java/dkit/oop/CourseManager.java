@@ -1,5 +1,6 @@
 package dkit.oop;
 
+import java.util.*;
 
 /**
  * CoursesManager
@@ -15,14 +16,31 @@ public class CourseManager {
 
     // Store all the Course details.
     // Requires fast access given courseId.
+    Map<String, Course> courses = new HashMap<>();
 
     public CourseManager() {
         // Hardcode some values to get started
+        Course c1 = new Course("DK105", "8", "BSc Computing in Soft Development", "DkIT");
         // load from text file "courses.dat" and populate coursesMap
+        courses.put(c1.getCourseId(), c1);
     }
 
-//    public  getCourse( ) {
-//    }
+     public Course getCourse(String courseID) throws CloneNotSupportedException
+     {
+        Iterator<Map.Entry<String, Course>> it = courses.entrySet().iterator();
+        Course clone = null;
+        
+        while(it.hasNext())
+        {
+            Map.Entry<String, Course> set = (Map.Entry<String, Course>) it.next();
+            if(set.getKey().equals(courseID))
+            {
+                clone = new Course((Course)set.getValue().clone());
+                return (Course)set.getValue().clone();
+            }
+        }
+        return clone;
+//   }
 //
 //
 //    public  getAllCourses() {

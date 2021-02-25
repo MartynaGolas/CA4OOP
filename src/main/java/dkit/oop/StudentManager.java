@@ -32,7 +32,7 @@ public class StudentManager
             if(set.getKey().equals(ceoNumber))
             {
                 clone = new Student((Student)set.getValue().clone());
-                return (Student)set.getValue().clone();
+                return clone;
             }
         }
         return clone;

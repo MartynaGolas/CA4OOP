@@ -21,18 +21,10 @@ public class StudentManager
         // later, load from text file "students.dat" and populate studentsMap
     }
 
-    public Student getStudent(int caoNum)
-    {
-        for(Map.Entry mapElement : students.entrySet())
-        {
-            int key = (int)mapElement.getKey();
-            if(mapElement.getCaoNumber())
-            {
-                return new Student copy = Student(Student);
-            }
-        }
-        
-    }
+//  public getStudent() {
+//  }
+//
+//
 //
 //    public addStudent() {
 //    }

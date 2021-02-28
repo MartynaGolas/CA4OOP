@@ -13,10 +13,8 @@ import java.util.*;
 public class App 
 {
     private static Scanner kb = new Scanner(System.in);
-    private static Vector<String[]> top_menu;
     private static Vector<String[]> admin_menu;
     private static Vector<String[]> student_menu;
-    private static Vector<String[]> student_login;
     private static StudentManager studentManager = new StudentManager();
     private static CourseManager courseManager= new CourseManager();
     private static CourseChoicesManager mgr = new CourseChoicesManager(studentManager, courseManager);
@@ -38,7 +36,9 @@ public class App
 
         // display a menu to do things
         init();
+        
         menuHelper(login());
+        
         // manual testing of mgr public interface
         
         
@@ -46,11 +46,6 @@ public class App
     
     public static void init()
     {
-        //Initializing Top Menu Options
-        top_menu = new Vector<String[]>();
-        top_menu.add(new String[]{"Student", "student_menu"});
-        top_menu.add(new String[]{"Admin", "admin_menu"});
-        
         // Initializing Admin Menu Options
         admin_menu = new Vector<String[]>();
         admin_menu.add(new String[]{"Add a Course", "addCourse"});
@@ -69,7 +64,7 @@ public class App
         student_menu.add(new String[]{"Update Course Choices", "updateChoices"});
     }
     
-    public static void menuHelper(Vector< String[]> menu)
+    public static void menuHelper(Vector<String[]> menu)
     {
         while(true)
         {
@@ -79,12 +74,13 @@ public class App
             {
                 System.out.println((i + 1) + ". " + menu.get(i)[0]);
             }
+            System.out.println("Choose an option: ");
             // Take user input
             String in = kb.nextLine();
             try
             {
                 int option = Integer.parseInt(in) - 1;
-                // option to back out
+                // Option to leave
                 if (option == -1)
                     return;
     
@@ -125,24 +121,28 @@ public class App
     
     public static Vector login() throws CloneNotSupportedException
     {
+        Vector<String[]> vec = null;
         String pass = "";
         String dob = "";
-        System.out.println("Login: ");
-        login = kb.nextInt();
-        System.out.println("Date Of Birth FORMAT YYYY-MM-DD");
-        dob = kb.next();
-        System.out.println("Password: ");
-        pass = kb.next();
+        
+        while(vec == null)
+        {
+            System.out.println("Login: ");
+            login = kb.nextInt();
+            System.out.println("Date Of Birth FORMAT YYYY-MM-DD");
+            dob = kb.next();
+            System.out.println("Password: ");
+            pass = kb.next();
     
-        if (login == 0000)
-        {
-            return admin_menu;
+            if (login == 0000)
+            {
+                vec = admin_menu;
+            } else if (mgr.login(login, dob, pass))
+            {
+                vec = student_menu;
+            }
         }
-        else if (mgr.login(login, dob, pass))
-        {
-            return student_menu;
-        }
-        return null;
+       return vec;
     }
     
     public static void addCourse() throws CloneNotSupportedException
@@ -220,7 +220,11 @@ public class App
     {
         if(login != 2288)
         {
-            System.out.println(mgr.getStudentChoices(login));
+            ArrayList<Course> choices = mgr.getStudentChoices(login);
+            for(int i = 0; i < choices.size(); i++)
+            {
+                System.out.println(choices.get(i));
+            }
         }
     }
     

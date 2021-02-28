@@ -47,9 +47,9 @@ public class CourseManager {
         } catch (FileNotFoundException e)
         {
             System.out.println("No such file");
-        } catch (InputMismatchException exception)
+        } catch (InputMismatchException e)
         {
-            System.out.println("InputMismatchexception caught." + exception);
+            System.out.println("Input Mismatch exception caught." + e);
         }
     }
 
@@ -60,11 +60,10 @@ public class CourseManager {
         
         while(it.hasNext())
         {
-            Map.Entry<String, Course> set = (Map.Entry<String, Course>) it.next();
+            Map.Entry<String, Course> set = it.next();
             if(set.getKey().equals(courseID))
             {
                 clone = new Course((Course)set.getValue().clone());
-                return clone;
             }
         }
         return clone;
@@ -76,20 +75,34 @@ public class CourseManager {
 //
     public void addCourse(Course course) throws CloneNotSupportedException
     {
-        Course clone = (Course)course.clone();
-        courses.put(clone.getCourseId(), clone);
+        Scanner kb = new Scanner(System.in);
+        if(courses.containsKey(course.getCourseId()))
+        {
+            System.out.println("Adding this course will replace an existing course with the same course ID, " +
+                    "are you sure you want to continue? Y/N");
+            String in = kb.next();
+            if(in.equals("Y"))
+            {
+                Course clone = (Course)course.clone();
+                courses.put(clone.getCourseId(), clone);
+                System.out.println("Course added successfully");
+            }
+            else if(in.equals("N"))
+            {
+                System.out.println("Course not added.");
+            }
+        }
     }
 //
     public void removeCourse(String courseID)
     {
-        Iterator<Map.Entry<String, Course>> it = courses.entrySet().iterator();
-        
-        while(it.hasNext())
+        Scanner kb = new Scanner(System.in);
+        for (Map.Entry<String, Course> set : courses.entrySet())
         {
-            Map.Entry<String, Course> set = (Map.Entry<String, Course>) it.next();
-            if(set.getKey().equals(courseID))
+            if (set.getKey().equals(courseID))
             {
                 courses.remove(courseID);
+                System.out.println("Course has been removed.");
             }
         }
     }

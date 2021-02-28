@@ -24,7 +24,7 @@ public class CourseChoicesManager {
     //Map<String, Course> courses = Map.copyOf(courseManager.courses);
 
     // caoNumber, course selection list - for fast access
-    Map<Integer, ArrayList<Course>> choices = new HashMap<>();
+    Map<Integer, List<Course>> choices = new HashMap<>();
 
 
     // CourseChoicesManager DEPENDS on both the StudentManager and CourseManager to access
@@ -51,15 +51,14 @@ public class CourseChoicesManager {
 
     public ArrayList getStudentChoices(int caoNumber)
     {
-        Iterator<Map.Entry<Integer, ArrayList<Course>>> it = choices.entrySet().iterator();
+        Iterator<Map.Entry<Integer, List<Course>>> it = choices.entrySet().iterator();
         ArrayList<Course> choices = null;
         while(it.hasNext())
         {
-            Map.Entry<Integer, ArrayList<Course>> set = (Map.Entry<Integer, ArrayList<Course>>) it.next();
+            Map.Entry<Integer, List<Course>> set = it.next();
             if(set.getKey().equals(caoNumber))
             {
-                choices = set.getValue();
-                return choices;
+                choices = (ArrayList<Course>) set.getValue();
             }
         }
         return choices;
@@ -91,15 +90,18 @@ public class CourseChoicesManager {
         return coursesList;
     }*/
 //
-    public boolean login(int caoNumber, String password) throws CloneNotSupportedException
+    public boolean login(int caoNumber, String dob, String password) throws CloneNotSupportedException
     {
-        if(studentManager.getStudent(caoNumber).getPassword().equals(password))
+        if(studentManager.getStudent(caoNumber) == null)
         {
-            return true;
+            System.out.println("User not registered. Try again");
+            return false;
         }
         else
         {
-            return false;
+            System.out.println("You have logged in successfully.");
+            return studentManager.getStudent(caoNumber).getPassword().equals(password) &&
+                    studentManager.getStudent(caoNumber).getDayOfBirth().equals(dob);
         }
     }
 

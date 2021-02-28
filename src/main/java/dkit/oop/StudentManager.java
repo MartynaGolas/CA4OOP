@@ -3,6 +3,7 @@ package dkit.oop;
 // to manipulate student objects
 
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -41,9 +42,9 @@ public class StudentManager
         } catch (FileNotFoundException e)
         {
             System.out.println("No such file");
-        } catch (InputMismatchException exception)
+        } catch (InputMismatchException e)
         {
-            System.out.println("InputMismatchexception caught." + exception);
+            System.out.println("Input Mismatch exception caught." + e);
         }
     
     }
@@ -55,11 +56,10 @@ public class StudentManager
         
         while(it.hasNext())
         {
-            Map.Entry<Integer, Student> set = (Map.Entry<Integer, Student>) it.next();
+            Map.Entry<Integer, Student> set = it.next();
             if(set.getKey().equals(ceoNumber))
             {
                 clone = new Student((Student)set.getValue().clone());
-                return clone;
             }
         }
         return clone;
@@ -69,29 +69,43 @@ public class StudentManager
 //
     public void addStudent(Student student) throws CloneNotSupportedException
     {
+        Scanner kb = new Scanner(System.in);
         Student clone = (Student)student.clone();
-        students.put(clone.getCaoNumber(), clone);
-    }
-
-    public void removeStudent(int ceoNumber) {
-        Iterator<Map.Entry<Integer, Student>> it = students.entrySet().iterator();
-        while(it.hasNext())
+        if(students.containsKey(student.getCaoNumber()))
         {
-            Map.Entry<Integer, Student> set = (Map.Entry<Integer, Student>) it.next();
-            if(set.getKey().equals(ceoNumber))
+            System.out.println("Student with this CAO number already exists, are you sure to overwrite?");
+            String in = kb.next();
+            if(in.equals("Y"))
             {
-                students.remove(set.getKey());
+                students.put(clone.getCaoNumber(), clone);
+                System.out.println("Student has been successfully added.");
+            }
+            else
+            {
+                System.out.println("Student not added.");
             }
         }
         
     }
 
+    public void removeStudent(int ceoNumber)
+    {
+        if (students.containsKey(ceoNumber))
+        {
+            students.remove(ceoNumber);
+            System.out.println("Student has been successfully removed.");
+        }
+        else
+        {
+            System.out.println("Student not removed or no student matching the given input: " + ceoNumber);
+        }
+    }
+    
+
    public Boolean isRegistered(int caoNumber)
    {
-       Iterator<Map.Entry<Integer, Student>> it = students.entrySet().iterator();
-       while(it.hasNext())
+       for (Map.Entry<Integer, Student> set : students.entrySet())
        {
-           Map.Entry<Integer, Student> set = (Map.Entry<Integer, Student>) it.next();
            if (set.getKey().equals(caoNumber))
            {
                return true;

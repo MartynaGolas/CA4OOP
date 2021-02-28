@@ -1,6 +1,9 @@
+//D00193013
+//To log in as an admin, you need to use 0000 for login, no password and no dob needed.
+
+
 package dkit.oop;
 
-import javax.swing.*;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -10,7 +13,7 @@ import java.util.*;
  *  Synchronisation of multiple reads and writes to file is not considered here.
  *
  */
-public class App 
+public class App
 {
     private static Scanner kb = new Scanner(System.in);
     private static Vector<String[]> admin_menu;
@@ -28,20 +31,9 @@ public class App
 
     private void start() throws CloneNotSupportedException
     {
-        
-        studentManager.addStudent(new Student(2000, "2000-01-01", "Name", "Surname"));
-        System.out.println(studentManager.getStudent(2000));
-        System.out.println(courseManager.getCourse("DK105"));
-        
-
         // display a menu to do things
         init();
-        
         menuHelper(login());
-        
-        // manual testing of mgr public interface
-        
-        
     }
     
     public static void init()
@@ -86,21 +78,9 @@ public class App
     
                 Method m = null;
                 String mName = menu.get(option)[1];
-    
-                switch (mName)
-                {
-                    case "student_menu":
-                        m = App.class.getMethod("menuHelper", Vector.class);
-                        m.invoke(null, student_menu);
-                        break;
-                    case "admin_menu":
-                        m = App.class.getMethod("menuHelper", Vector.class);
-                        m.invoke(null, admin_menu);
-                        break;
-                    default:
-                        m = App.class.getMethod(mName, null);
-                        m.invoke(null, null);
-                }
+                
+                m = App.class.getMethod(mName, null);
+                m.invoke(null, null);
     
             } catch (NumberFormatException e)
             {
@@ -121,28 +101,31 @@ public class App
     
     public static Vector login() throws CloneNotSupportedException
     {
-        Vector<String[]> vec = null;
+        Vector<String[]> menu = null;
         String pass = "";
         String dob = "";
         
-        while(vec == null)
+        while(menu == null)
         {
             System.out.println("Login: ");
             login = kb.nextInt();
-            System.out.println("Date Of Birth FORMAT YYYY-MM-DD");
-            dob = kb.next();
-            System.out.println("Password: ");
-            pass = kb.next();
-    
             if (login == 0000)
             {
-                vec = admin_menu;
-            } else if (mgr.login(login, dob, pass))
+                menu = admin_menu;
+            }
+            else
             {
-                vec = student_menu;
+                System.out.println("Date Of Birth FORMAT YYYY-MM-DD");
+                dob = kb.next();
+                System.out.println("Password: ");
+                pass = kb.next();
+                if(mgr.login(login, dob, pass))
+                {
+                    menu = student_menu;
+                }
             }
         }
-       return vec;
+       return menu;
     }
     
     public static void addCourse() throws CloneNotSupportedException

@@ -1,3 +1,4 @@
+//D00193013
 package dkit.oop;
 
 // Stores all student CAO choices.
@@ -97,11 +98,15 @@ public class CourseChoicesManager {
             System.out.println("User not registered. Try again");
             return false;
         }
+        else if(studentManager.getStudent(caoNumber).getPassword().equals(password) == true &&
+                studentManager.getStudent(caoNumber).getDayOfBirth().equals(dob) == true)
+        {
+            return true;
+        }
         else
         {
-            System.out.println("You have logged in successfully.");
-            return studentManager.getStudent(caoNumber).getPassword().equals(password) &&
-                    studentManager.getStudent(caoNumber).getDayOfBirth().equals(dob);
+            System.out.println("Incorrect credentials.");
+            return false;
         }
     }
 

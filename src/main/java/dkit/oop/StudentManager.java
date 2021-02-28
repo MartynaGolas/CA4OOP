@@ -5,8 +5,7 @@ package dkit.oop;
 
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 
 public class StudentManager
@@ -14,6 +13,9 @@ public class StudentManager
 
     // Store all students in data structure
     Map<Integer, Student> students = new HashMap<>();
+    File file = new File("src/Students.txt");
+    
+    BufferedWriter bf = null;
     
 
 
@@ -86,6 +88,11 @@ public class StudentManager
                 System.out.println("Student not added.");
             }
         }
+        else
+        {
+            students.put(clone.getCaoNumber(), clone);
+            System.out.println("Student has been successfully added.");
+        }
         
     }
 
@@ -114,4 +121,51 @@ public class StudentManager
        }
        return false;
    }
+    
+    public void getAllStudents()
+    {
+        Iterator<Map.Entry<Integer, Student>> it = students.entrySet().iterator();
+        while(it.hasNext())
+        {
+            Map.Entry<Integer, Student> set = it.next();
+            System.out.println("CAO No.: " + set.getValue().getCaoNumber() + " DOB: " + set.getValue().getDayOfBirth()
+                    + " Password: " + set.getValue().getPassword() + " Email: " + set.getValue().getEmail()
+            );
+        }
+    }
+    
+    public void writeToFile()
+    {
+        try {
+            
+            // create new BufferedWriter for the output file
+            bf = new BufferedWriter(new FileWriter(file));
+            
+            // iterate map entries
+            for (Map.Entry<Integer, Student> set : students.entrySet())
+            {
+                // put key and value separated by a colon
+                bf.write(set.getKey() + "," + set.getValue().getDayOfBirth()
+                        + "," + set.getValue().getPassword() + "," + set.getValue().getPassword());
+                
+                // new line
+                bf.newLine();
+            }
+            
+            bf.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            
+            try {
+                
+                // always close the writer
+                bf.close();
+            }
+            catch (Exception e) {
+            }
+        }
+    }
 }

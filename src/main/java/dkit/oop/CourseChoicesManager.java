@@ -89,7 +89,7 @@ public class CourseChoicesManager {
             coursesList.add(set.getValue());
         }
         return coursesList;
-    }*/
+    }**/
 //
     public boolean login(int caoNumber, String dob, String password) throws CloneNotSupportedException
     {

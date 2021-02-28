@@ -29,7 +29,7 @@ public class App
         new App() .start();
     }
 
-    private void start() throws CloneNotSupportedException
+    private static void start() throws CloneNotSupportedException
     {
         // display a menu to do things
         init();
@@ -46,7 +46,9 @@ public class App
         admin_menu.add(new String[]{"Display a Course", "getCourse"});
         admin_menu.add(new String[]{"Add Student", "addStudent"});
         admin_menu.add(new String[]{"Remove Student", "removeStudent"});
+        admin_menu.add(new String[]{"Display all Students", "displayStudents"});
         admin_menu.add(new String[]{"Display a Student", "getStudent"});
+        admin_menu.add(new String[]{"Save and Quit", "save"});
         
         //Initializing Student Menu Options
         student_menu = new Vector<String[]>();
@@ -163,6 +165,11 @@ public class App
         }
     }
     
+    public static void displayCourses()
+    {
+        courseManager.getAllCourses();
+    }
+    
     public static void addStudent() throws CloneNotSupportedException
     {
         System.out.println("Enter student CAO number: ");
@@ -190,6 +197,11 @@ public class App
         {
             System.out.println(studentManager.getStudent(cao));
         }
+    }
+    
+    public static void displayStudents()
+    {
+        studentManager.getAllStudents();
     }
     
     public static void removeStudent()
@@ -227,6 +239,14 @@ public class App
         
         mgr.updateChoices(login, choices);
         System.out.println("Your choices have been updated.");
+    }
+    
+    public static void save()
+    {
+        courseManager.writeToFile();
+        studentManager.writeToFile();
+        System.out.println("Data successfully saved.");
+        System.exit(0);
     }
     
 }

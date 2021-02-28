@@ -1,8 +1,7 @@
 //D00193013
 package dkit.oop;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -20,14 +19,13 @@ public class CourseManager {
     // Store all the Course details.
     // Requires fast access given courseId.
     Map<String, Course> courses = new HashMap<>();
+    File file = new File("src/Courses.txt");
+    
+    BufferedWriter bf = null;
 
     public CourseManager() {
         // Hardcode some values to get started
-        Course c1 = new Course("DK105", "8", "BSc Computing in Soft Development", "DkIT");
-        Course c2 = new Course("DK106", "8", "BSc Computing in Soft Development", "DkIT");
         // load from text file "courses.dat" and populate coursesMap
-        courses.put(c1.getCourseId(), c1);
-        courses.put(c2.getCourseId(), c2);
         try(Scanner scan = new Scanner(new File("src/Courses.txt")))
         {
             scan.useDelimiter("[,|\r\n]");
@@ -69,11 +67,20 @@ public class CourseManager {
         }
         return clone;
      }
-//
-//
-//    public  getAllCourses() {
-//    }
-//
+
+
+    public void getAllCourses()
+    {
+        Iterator<Map.Entry<String, Course>> it = courses.entrySet().iterator();
+        while(it.hasNext())
+        {
+            Map.Entry<String, Course> set = it.next();
+            System.out.println("Course ID: " + set.getValue().getCourseId() + " Level: " + set.getValue().getLevel()
+                    + " Title: " + set.getValue().getTitle() + " Institution: " + set.getValue().getInstitution()
+            );
+        }
+    }
+
     public void addCourse(Course course) throws CloneNotSupportedException
     {
         Scanner kb = new Scanner(System.in);
@@ -93,11 +100,16 @@ public class CourseManager {
                 System.out.println("Course not added.");
             }
         }
+        else
+        {
+            Course clone = (Course)course.clone();
+            courses.put(clone.getCourseId(), clone);
+            System.out.println("Course added successfully");
+        }
     }
 //
     public void removeCourse(String courseID)
     {
-        Scanner kb = new Scanner(System.in);
         for (Map.Entry<String, Course> set : courses.entrySet())
         {
             if (set.getKey().equals(courseID))
@@ -107,10 +119,46 @@ public class CourseManager {
             }
         }
     }
+    
+    public void writeToFile()
+    {
+        try {
+        
+            // create new BufferedWriter for the output file
+            bf = new BufferedWriter(new FileWriter(file));
+        
+            // iterate map entries
+            for (Map.Entry<String, Course> set : courses.entrySet())
+            {
+                // put key and value separated by a colon
+                bf.write(set.getKey() + "," + set.getValue().getLevel()
+                        + "," + set.getValue().getTitle() + "," + set.getValue().getInstitution());
+            
+                // new line
+                bf.newLine();
+            }
+        
+            bf.flush();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+        
+            try {
+            
+                // always close the writer
+                bf.close();
+            }
+            catch (Exception e) {
+            }
+        }
+    }
+}
 
     // editCourse(courseId);       // not required for this iteration
 
-}
+
 
 
 
